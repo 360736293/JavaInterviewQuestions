@@ -48,8 +48,8 @@
     - [过滤器和拦截器的区别](#过滤器和拦截器的区别)
     - [mybatis中取值方式有几种？各自的区别是什么？](#mybatis中取值方式有几种各自的区别是什么)
     - [mybatis的一级缓存和二级缓存](#mybatis的一级缓存和二级缓存)
-    - [谈谈对spring框架的理解。IOC、DI和AOP。](#谈谈对spring框架的理解IOC、DI和AOP)
-    - [SpringAOP和AspectJAOP有什么区别](#SpringAOP和 AspectJAOP有什么区别)
+    - [谈谈对spring框架的理解。IOC/DI和AOP。](#谈谈对spring框架的理解。IOC/DI和AOP。)
+    - [SpringAOP和AspectJAOP有什么区别](#SpringAOP和AspectJAOP有什么区别)
     - [@Autowired和@Resource注解的区别](#@Autowired和@Resource注解的区别)
     - [spring常见的注解有哪些?](#spring常见的注解有哪些)
     - [SpringMVC处理请求的流程](#SpringMVC处理请求的流程)
@@ -778,7 +778,7 @@ access-control-allow-origin 的字段值是包含当前客户端地址或 \*，�
 mybatis的二级缓存不是默认打开的，需要我们手动设置开启二级缓存。二级缓存是跟SqlSessionFactory相关的缓存。只要是同一个sqlSessionFactory创建的sqlSession对象执行的sql语句都共用这个二级缓存。
 ```
 
-## **谈谈对spring框架的理解。IOC、DI和AOP**。
+## **谈谈对spring框架的理解。IOC/DI和AOP。**。
 
 ```markdown
 IOC、DI：
@@ -797,7 +797,7 @@ aop：
   AOP（Aspect Oriented Programming）指的是面向切面编程，通过预编译方式和运行期动态代理实现在不修改源代码的情况下给程序动态统一添加某种特定功能的一种技术，可以实现比如日志记录、事务管理、性能统计和权限控制等功能。SpringAOP是基于动态代理来实现的，它分为两种代理方式，一种是JDK动态代理，一种是CGLIB动态代理。如果要代理的对象，实现了某个接口，那么 Spring AOP 会使用 JDK动态代理去创建代理对象，而对于没有实现接口的对象，就无法使用 JDK动态代理去进行代理，这时候 Spring AOP 会使用 Cglib动态代理 生成一个被代理对象的子类来作为代理。JDK动态代理的底层是使用反射生成一个实现目标类接口的代理类，而Cglib动态代理是使用字节码技术将目标类加载进来通过修改字节码来生成代理类。
 ```
 
-## **SpringAOP和 AspectJAOP有什么区别**
+## **SpringAOP和AspectJAOP有什么区别**
 
 ```markdown
 Spring AOP 属于运行时增强，而 AspectJ 是编译时增强。Spring AOP 基于动态代理来实现的，而 AspectJ 基于字节码操作来实现的。如果我们的切面比较少，那么两者性能差异不大。但是，当切面太多的话，最好选择 AspectJ ，它比 Spring AOP 快很多。
