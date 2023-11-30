@@ -26,6 +26,40 @@
    key：当前threadlocal对象
    value：共享数据对象。 
 
+## 集合
+
+​	集合主要分为两大类Collection、Map，具体的结构如下：
+
+​	**Collection：**
+
+​			List：
+
+​					ArrayList：线程不安全，底层由数组实现；
+
+​					LinkedList：线程不安全，底层由链表实现；
+
+​					Vector：线程安全，底层由数组实现；
+
+​			Set：	
+
+​					HashSet：线程不安全，底层就是new了一个HashMap，然后value默认为一个被final修饰的名字叫做PRESENT的Object类型的对象；
+
+​					TreeSet：线程不安全，底层是一个TreeMap；
+
+​					LinkedHashSet：线程不安全，底层是一个LinkedHashMap；
+
+​	**Map：**
+
+​			HashMap：线程不安全，底层由数组、链表、红黑树（JDK1.8之后）实现；
+
+​			TreeMap：线程不安全，底层由红黑树实现；
+
+​			LinkedHashMap：线程不安全，底层由数组、双向链表、红黑树实现；
+
+​			HashTable：线程安全，**但是注意，HashTable扩容时采用的是头插法，这才并发扩容的情况下可能会导致死链问题！**底层由数组、链表实现；
+
+​			Properties：线程安全（继承自HashTable），底层由数组、链表实现，主要作用就是用来读写properties后缀的配置文件；
+
 ## HashMap底层数据结构
 
 key无序；
@@ -87,36 +121,6 @@ key和value都不可以为null；
 ​	扩容的时候先用当前数组的长度右移一位（相当于除以2取整），15>>1==7 然后再加上当前数组长度15，得到新的数组的长度23，这里再看上面的1.5可以看成二分之三，也就是二分之二加上二分之一，**这就是1.5的来源**。
 
 ​	当使用addAll的方法进行扩容使，如果原始容量不够，会在下次标准扩容后的大小和当前所有元素数量大小两者之间取最大值。
-
-## 集合List Set Map特点
-
-### List集合:
-
-有序号(从0开始)
-对象可以重复
-有顺序(维持了存入的顺序)
-
-### Set集合:
-
-无序号
-对象不可以重复
-注意：
-① 默认set认为对象的地址是一样的，才是重复对象。对象的属性值一样，不属于重复对象。
-② set对存入对象判定是否是同一对象的规则：
-先判断对象hashcode是否一样。(类似对象地址)。
-如果hashcode相同， 会继续调用对象equals方法，判定对象是否相同。
-如果希望set认为对象的属性值一样， 就是同一对象只保留1份。
-重写对象hashcode方法和equals
-重写规则： 尽量让相同对象的hashcode相同， 对象属性不一样的对象的equals返回false
-
-无顺序(对象存入set后,顺序混乱)
-
-### Map集合
-
-每个对象Entry，包含key-value
-key不可以重复
-value可以重复
-无顺序
 
 ## String，StringBuilder，StringBuffer的区别?
 
