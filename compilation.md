@@ -128,76 +128,34 @@ key和value都不可以为null；
 
 ## String，StringBuilder，StringBuffer的区别?
 
-```markdown
-# String不可变性
+String不可变性
 
 1. 串池中的字符串, 是jvm级别, 多线程共享, 一旦某个线程修改字符串内容, 导致其他线程对于该字符串引用内容, 发生意外修改,
    不安全.
 2. String对象,在做字符串拼接,修改字符串, 必须新创建一个新的字符串.---(字符串不可变性)
    总结: 字符串对象一旦创建, 内容是不会改变.
 
-# 题目答案：
+题目答案：
 
 1. String不可变性导致拼接会产生大量中间对象, 浪费时间, 浪费空间 效率降低.
 2. StringBuilder可变字符串, 在拼接, 避免中间对象的产生,节省空间, 节省时间. 效率高.
 
-# 补充
+补充
 
-String 字符串常量 不可变 使用字符串拼接时是不同的2个空间
-StringBuffer 字符串变量 可变 字符串拼接直接在后面追加 线程安全
-StringBuilder 字符串变量 可变 字符串拼接直接在后面追加 非线程安全
-
-```
-
-## StringTable的特性
-
-```markdown
-1. jdk中利用了串池机制，避免了重复创建字符串对象。串池就是StringTable他是一个map集合。
-2. 字符串变量在jdk1.8中用加号拼接时使用的是StringBuilder类。
-3. 字符串常量拼接的原理是编译期优化。
-4. jdk中intern方法是将串池中还没有的字符串对象放入到串池里面，如果串池中已经有了，那就不放了，但是返回串池里面的对象。jdk1.6是复制，jdk1.8是移动。
-5. StringTable的位置？jdk1.6是在方法区，jdk1.8转移到了堆里面。
-
-```
-
-```java
-public static void main(){
-        String s1="a";
-        String s2="b";
-        String s3="a"+"b";
-        String s4=s1+s2;
-        String s5="ab";
-        String s6=s4.intern();
-
-        //问
-        System.out.println(s3==s4); //false
-        System.out.println(s3==s5); //true
-        System.out.println(s3==s6); //true
-
-        String x1="cd";
-        String x2=new String("c")+new String("d");
-        String x3=x2.intern();
-
-        //问，如果调换了x1，x2的位置呢，如果是jdk1.6呢
-        System.out.println(x1==x2); //false
-        }
-```
+​	String 字符串常量 不可变 使用字符串拼接时是不同的2个空间
+​	StringBuffer 字符串变量 可变 字符串拼接直接在后面追加 线程安全
+​	StringBuilder 字符串变量 可变 字符串拼接直接在后面追加 非线程安全
 
 ## Integer a = 128;Integer b = 128; a == b的结果是什么?
 
-```markdown
-# 常量池：
+常量池：
 
 1. jvm认为数字 -128 ~ 127之间的数字在java程序使用频率是最高。
 2. 每次使用数字， 都需在内存中开辟空间(占用空间)， 初始化数据(消耗时间)
 3. jvm启动时候，会在内存中先初始化一定数量的数字：-128~127之间。
 4. 后续java程序运行期间， 凡是需要使用-128~127之间数字的，都直接从常量池获取，减少数字重复占用内存， 减少数字创建等待时间。效率提升了。
-```
 
 ## 包装类和基本数据类型的区别
-
-```markdown
-# 说明
 
 基本数据类型: byte short int long float double boolean char (8种)
 包装数据类型: Integer Long Byte Short Double Boolean Character
@@ -214,43 +172,37 @@ BigDecimal b = new BigDecimal("130.08");
 BigDecimal result = b.multiply(new BigDecimal("100"));
 System.out.println(result);
 
-```
-
 ## 深拷贝和浅拷贝的区别
 
-```markdown
 浅拷贝：被复制对象的所有属性都含有与原来的对象相同的值，而所有的对其他对象的引用仍然指向原来的对象，换言之，浅拷贝仅仅复制所拷贝的对象，而不复制它里面所引用的对象。
 
 深拷贝：被复制对象的所有属性都与原来的对象相同，而那些引用其他对象的属性将指向被复制过的新对象，而不再是原有的那些被引用的对象，换言之，深拷贝除了赋值所拷贝的对象，还要复制的该对象里面所引用的对象。
 
 引用拷贝：指复制了原对象的引用，两个对象均指的是同一块内存堆中的对象。
-```
 
 ## 常见设计模式
 
-```markdown
-单例、工厂、代理、策略、责任链、建造者、观察者、装饰器、适配器、模板
+**单例、工厂、代理、策略、责任链、建造者、观察者、装饰器、适配器、模板**
 
-单例：单例是在整个应用程序环境中只会存在一份对象，分为饿汉式单例模式和懒汉式单例模式，饿汉式是在类初始化的时候将所有的单例对象全部生成，而懒汉式是在使用的时候才会生成对象。
+**单例：**单例是在整个应用程序环境中只会存在一份对象，分为饿汉式单例模式和懒汉式单例模式，饿汉式是在类初始化的时候将所有的单例对象全部生成，而懒汉式是在使用的时候才会生成对象。
 
-工厂：工厂是通过给一个工厂类传入指定参数来实例化一个对象，它与策略设计模式类似，但是工厂更侧重的是对象的实例化，比如生成的对象是猫还是狗。
+**工厂：**工厂是通过给一个工厂类传入指定参数来实例化一个对象，它与策略设计模式类似，但是工厂更侧重的是对象的实例化，比如生成的对象是猫还是狗。
 
-代理：代理是对原始类进行增强，比如在原始类的方法执行前后进行一些操作。它分为静态代理和动态代理，静态代理是在编译期间就已经生成代理类，而动态代理是在运行期间生成代理类，静态代理的缺点是每个代理类只能代理一个原始类，而动态代理可以代理多个原始类。
+**代理：**代理是对原始类进行增强，比如在原始类的方法执行前后进行一些操作。它分为静态代理和动态代理，静态代理是在编译期间就已经生成代理类，而动态代理是在运行期间生成代理类，静态代理的缺点是每个代理类只能代理一个原始类，而动态代理可以代理多个原始类。
 
-策略：策略通过给一个策略类传入指定参数来决定处理的逻辑，它与工厂设计模式相比，更侧重的是逻辑的处理，比如支付方式应该选择支付宝还是微信。
+**策略：**策略通过给一个策略类传入指定参数来决定处理的逻辑，它与工厂设计模式相比，更侧重的是逻辑的处理，比如支付方式应该选择支付宝还是微信。
 
-责任链：责任链是将一个请求按照一定的顺序交给多个处理器来进行处理，每个处理器都可以对其进行处理或者传递给链上的下一个处理器。
+**责任链：**责任链是将一个请求按照一定的顺序交给多个处理器来进行处理，每个处理器都可以对其进行处理或者传递给链上的下一个处理器。
 
-建造者：建造者是将一个复杂对象的创建分解为多个简单的对象一步一步构建而成，它注重方法的调用顺序，它还将变与不变相分离，即产品的组成部分是不变的，但每一部分是可以灵活选择的。
+**建造者：**建造者是将一个复杂对象的创建分解为多个简单的对象一步一步构建而成，它注重方法的调用顺序，它还将变与不变相分离，即产品的组成部分是不变的，但每一部分是可以灵活选择的。
 
-观察者：观察者由成为发布订阅模式，是在对象之间定义一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都会得到通知并自动更新。
+**观察者：**观察者由成为发布订阅模式，是在对象之间定义一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都会得到通知并自动更新。
 
-装饰器：装饰器是在不改变原始类的情况下，对原始类进行增强，比如在原始类的方法执行前后进行一些操作，它有点类似代理模式，但是代理模式做的额外处理跟原始方法没有关系，比如权限控制日志打印，而装饰器则是对原始方法进行扩展添加额外的功能。
+**装饰器：**装饰器是在不改变原始类的情况下，对原始类进行增强，比如在原始类的方法执行前后进行一些操作，它有点类似代理模式，但是代理模式做的额外处理跟原始方法没有关系，比如权限控制日志打印，而装饰器则是对原始方法进行扩展添加额外的功能。
 
-适配器：适配器是将一个类的接口转换成客户希望的另一个接口，它使得原本由于接口不兼容而不能一起工作的那些类可以一起工作，比如写一个适配器类，然后实现一个目标接口，同时持有一个需要适配的适配者类对象。通过适配器类的中间转换实现了适配器类与目标接口的兼容。
+**适配器：**适配器是将一个类的接口转换成客户希望的另一个接口，它使得原本由于接口不兼容而不能一起工作的那些类可以一起工作，比如写一个适配器类，然后实现一个目标接口，同时持有一个需要适配的适配者类对象。通过适配器类的中间转换实现了适配器类与目标接口的兼容。
 
-模板：模板是在一个抽象类中定义了执行它的方法模板，它的子类可以按照需要重写方法进行实现，但具体的使用将以抽象类中定义的方式进行。
-```
+**模板：**模板是在一个抽象类中定义了执行它的方法模板，它的子类可以按照需要重写方法进行实现，但具体的使用将以抽象类中定义的方式进行。
 
 # JavaSE高级
 
@@ -990,21 +942,22 @@ TCP主要应用在传输文件，邮件，网页，UDP应用在语音通话，�
 
 ## WebSocket与HTTP的关系
 
-```text
 相同点：
 1. 都是一样基于TCP的，都是可靠性传输协议。
 2. 都是应用层协议。
+
 区别：
- WebSocket是双向通信协议，模拟Socket协议，可以双向发送或接受信息。HTTP是单向的，客户端发送请求，服务器发送响应。当客户端向服务器发送请求时，该请求以HTTP形式发送，在接收到请求后，服务器会将响应发送给客户端。每个请求都与一个对应的响应相关联，在发送响应后客户端与服务器的连接会被关闭。
- websocket中服务器可以主动给客户端推送消息，而http必须先有请求再有响应。
+ 	WebSocket是双向通信协议，模拟Socket协议，可以双向发送或接受信息。HTTP是单向的，客户端发送请求，服务器发送响应。当客户端向服务器发送请求时，该请求以HTTP形式发送，在接收到请求后，服务器会将响应发送给客户端。每个请求都与一个对应的响应相关联，在发送响应后客户端与服务器的连接会被关闭。websocket中服务器可以主动给客户端推送消息，而http必须先有请求再有响应。
+
 应用场景：
-WebSocket
+	WebSocket
+
 1. 即时Web应用程序
 2. 游戏应用程序
 3. 聊天应用程序
-HTTP
- 只想获取一次数据供应用程序使用，不需要服务器主动推送消息。
-```
+
+​	HTTP
+​	 只想获取一次数据供应用程序使用，不需要服务器主动推送消息。
 
 ## 常见的WEB漏洞有哪些？如何解决
 
@@ -1047,34 +1000,26 @@ access-control-allow-origin 的字段值是包含当前客户端地址或 \*，�
 
 ## 过滤器和拦截器的区别
 
-```markdown
 1、使用范围与规范不同：Filter是Servlet规范中定义的，依赖于Servlet容器。拦截器是SpringMvc的组件，只有springMVC框架可以使用。
 2、使用资源不同：拦截器可以使用Spring里的任何资源、对象，例如Service对象、数据源、事务管理等，通过IOC注入到拦截器即可；而Filter没有被spring管理，他不能注入spring的bean对象。
 3、作用范围不同：Filter在只在Servlet前后起作用。而拦截器对控制器请求起作用。过滤器可以拦截任意资源包括，servlet，静态资源html,css，js。拦截器只能拦截springMVC的控制器方法。
 4、实现机制不同：拦截器是基于java的反射机制的，而过滤器是基于函数回调。
-```
 
 ## **mybatis中取值方式有几种？各自的区别是什么？**
 
-```markdown
-#{}和${}的区别
+**{}和${}的区别**
 
 1. #{}相当于sql语句的占位符，他的执行效率和安全性都比字符串拼接要好。
 2. ${}相当于字符串拼接，更加灵活。可以应用在sql中的关键字。 select * from 表 order by ? 这个场景可以应用在${}上。
-```
 
-## **mybatis的一级缓存和二级缓存**
+## mybatis的一级缓存和二级缓存
 
-```markdown
 1. mybatis中默认带了一级缓存，自动就使用了一级缓存。一级缓存是跟sqlSession相关的缓存。当我们使用同样的sqlSession去执行相同的查询sql那么一级缓存就会生效。一级缓存应用场景不多，几乎用不到。
-2.
-mybatis的二级缓存不是默认打开的，需要我们手动设置开启二级缓存。二级缓存是跟SqlSessionFactory相关的缓存。只要是同一个sqlSessionFactory创建的sqlSession对象执行的sql语句都共用这个二级缓存。
-```
+2. mybatis的二级缓存不是默认打开的，需要我们手动设置开启二级缓存。二级缓存是跟SqlSessionFactory相关的缓存。只要是同一个sqlSessionFactory创建的sqlSession对象执行的sql语句都共用这个二级缓存。
 
 ## **谈谈对spring框架的理解。IOC/DI和AOP。**。
 
-```markdown
-IOC、DI：
+**IOC、DI：**
   IoC（Inversion of Control） 控制反转，是一种设计思想，而不是一个具体的技术实现，IoC 的思想就是将原本在程序中手动创建对象的控制权，交由 Spring 框架来管理。将对象之间的相互依赖关系交给 IoC 容器来管理，并由 IoC 容器完成对象的注入。这样可以很大程度上简化应用的开发，把应用从复杂的依赖关系中解放出来。 IoC 容器就像是一个工厂一样，当我们需要创建一个对象的时候，只需要配置好配置文件或注解即可，完全不用考虑对象是如何被创建出来的。IoC 容器实际上就是个 Map（key，value），Map 中存放的是各种对象，而这些由IoC容器管理的对象又称之为Bean。DI（Dependency Injection）依赖注入，IoC就是通过依赖注入来实现的，通过注入的方式将IoC容器中的对象赋值给目标属性。依赖注入有三种方式：
 
 1、属性注入：通过在目标属性上加@Autowired注解来实现。
@@ -1085,52 +1030,44 @@ IOC、DI：
 
   属性注入使用起来简单但是无法注入final 修饰的对象；setter注入相比较属性注入，同样不能注入一个final修饰的对象，但是被注入的对象在注入前可以被修改；使用构造方法注入可以注入final修饰的对象，同时被注入的对象在注入前可以被修改；
 
-
-aop：
+**aop：**
   AOP（Aspect Oriented Programming）指的是面向切面编程，通过预编译方式和运行期动态代理实现在不修改源代码的情况下给程序动态统一添加某种特定功能的一种技术，可以实现比如日志记录、事务管理、性能统计和权限控制等功能。SpringAOP是基于动态代理来实现的，它分为两种代理方式，一种是JDK动态代理，一种是CGLIB动态代理。如果要代理的对象，实现了某个接口，那么 Spring AOP 会使用 JDK动态代理去创建代理对象，而对于没有实现接口的对象，就无法使用 JDK动态代理去进行代理，这时候 Spring AOP 会使用 Cglib动态代理 生成一个被代理对象的子类来作为代理。JDK动态代理的底层是使用反射生成一个实现目标类接口的代理类，而Cglib动态代理是使用字节码技术将目标类加载进来通过修改字节码来生成代理类。
-```
 
 ## **SpringAOP和AspectJAOP有什么区别**
 
-```markdown
 Spring AOP 属于运行时增强，而 AspectJ 是编译时增强。Spring AOP 基于动态代理来实现的，而 AspectJ 基于字节码操作来实现的。如果我们的切面比较少，那么两者性能差异不大。但是，当切面太多的话，最好选择 AspectJ ，它比 Spring AOP 快很多。
-```
 
 ## **@Autowired和@Resource注解的区别**
 
-```markdown
 二者都是用来实现依赖注入的。但是，
 
 @Autowired是Spring提供的注解，支持属性注入、setter注入、构造方法注入，注入的对象是通过类型进行查找的，如果一个类型存在多个Bean再根据名称进行查找；
 
 @Resource是JDK提供的注解，只支持属性注入、setter注入，注入的对象是通过名称进行查找的，如果通过名称没有找到会再通过类型进行查找。
-```
 
 ## **spring常见的注解有哪些?**
 
-```markdown
 组件注解：
 
-​ @Controller @Service @Repository @Component @Bean @Configration @Scope
+ @Controller @Service @Repository @Component @Bean @Configration @Scope
 
 装配注解：
 
-​ @Autowire @Resource @Value
+ @Autowire @Resource @Value
 
 aop注解：
 
-​ @Aspect @Before @After @Pointcut @Transcational
+ @Aspect @Before @After @Pointcut @Transcational
 
 Mvc注解：
 
-​ @RestController @RequetMapping @PathVariable @RequestBody @RequestParam
-```
+ @RestController @RequetMapping @PathVariable @RequestBody @RequestParam
 
 ## SpringMVC处理请求的流程
 
 
 ![SpringMVC处理请求的流程.png](image/SpringMVC处理请求的流程.png)  
-```markdown
+
 1、客户端（浏览器）发送请求，DispatcherServlet拦截请求。
 
 2、DispatcherServlet根据请求信息调用HandlerMapping。HandlerMapping根据URL去匹配查找能处理的Handler（也就是我们平常说的Controller控制器），并会将请求涉及到的拦截器和Handler一起封装。
@@ -1144,17 +1081,13 @@ Mvc注解：
 6、DispaterServlet把返回的Model传给View（视图渲染），然后执行拦截器的最终操作afterCompletion处理。
 
 7、把View返回给请求者（浏览器)。
-```
 
 ## **springboot的starter机制**（自动装配）
 
-```markdown
-springboot的starter机制依靠于自动装配来实现的，就是在Springboot的帮助下通过一些少量注解或简单的配置就可以完成第三方依赖的注入，减少了配置第三方依赖的麻烦。使用方式就是在第三方依赖的META-INF文件中创建一个spring.factories文件，其中写入当前依赖中配置类的全类名，之后在主项目中引入这个依赖就可以通过注解的方式注入这个依赖来使用，因为主项目的SpringBootApplication注解包含有EnableAutoConfiguration注解来启动自动配置，EnableAutoConfiguration注解中的Import注解会去读取整个项目中包含第三方依赖中的spring.factories配置文件，在这个配置文件中有个配置项指向了第三方依赖的配置类@Configuration，在这个配置类中，第三方依赖会把要管理的对象都配置成@Bean注解。
-```
+​	springboot的starter机制依靠于自动装配来实现的，就是在Springboot的帮助下通过一些少量注解或简单的配置就可以完成第三方依赖的注入，减少了配置第三方依赖的麻烦。使用方式就是在第三方依赖的META-INF文件中创建一个spring.factories文件，其中写入当前依赖中配置类的全类名，之后在主项目中引入这个依赖就可以通过注解的方式注入这个依赖来使用，因为主项目的SpringBootApplication注解包含有EnableAutoConfiguration注解来启动自动配置，EnableAutoConfiguration注解中的Import注解会去读取整个项目中包含第三方依赖中的spring.factories配置文件，在这个配置文件中有个配置项指向了第三方依赖的配置类@Configuration，在这个配置类中，第三方依赖会把要管理的对象都配置成@Bean注解。
 
 ## **spring中bean对象的生命周期**
 
-```markdown
 整体来说生命周期分为实例化->属性赋值->初始化->使用->销毁五个阶段，但是有其他的扩展如下：
 
 1、BeanDefinition：Bean容器找到Bean并且将Bean的定义加载进容器里。
@@ -1185,32 +1118,28 @@ springboot的starter机制依靠于自动装配来实现的，就是在Springboo
 
 14、销毁：调用destroy()方法销毁Bean对象。
 
-15、destroy-method：自定义的destroy方法。
-```
-
-&#x20;
+15、destroy-method：自定义的destroy方法。&#x20;
 
 ## Spring中有哪几种方式把bean对象交给IOC容器
 
-```java
-1.Bean注解加上，Configuration
-        2.使用Component注解。
-        3.使用Import注解，可以导入一个普通的类，也可以导入一个ImportSelector
-        4.可以实现FactoryBean接口。
-        5.可以实现BeanDefinitionRegistryPostProcessor接口，手动向容器中注册BeanDefinition  
-```
+1.Bean注解加上，Configuration。
+
+2.使用Component注解。
+
+3.使用Import注解，可以导入一个普通的类，也可以导入一个ImportSelector。
+
+4.可以实现FactoryBean接口。
+
+5.可以实现BeanDefinitionRegistryPostProcessor接口，手动向容器中注册BeanDefinition。
 
 ## SpringBoot启动过程
 
 ![](image/微信图片_20220909235131_K1BxIRDhE0.png)
 
-```java
-运行main方法，启动springboot程序，会先new一个SpringApplication对象，在对象的构造方法中会进行一些参数的初始化工作，比如获取启动运行过程中的各种监听器。运行run方法，读取环境变量、配置信息等等，然后创建SpringApplication上下文，执行prepareContext方法将启动类作为配置类读取，将所有的配置类注册为BeanDefinition，之后执行refresh方法加载ioc容器，执行invokeBeanFactoryPostProcessor方法解析@Import注解，加载所有的自动配置类，之后执行onRefresh方法加载内置的Servlet容器创建一个内置的Tomcat，在这个过程中springboot会调用很多的监听器对外进行扩展。
-```
+​	运行main方法，启动springboot程序，会先new一个SpringApplication对象，在对象的构造方法中会进行一些参数的初始化工作，比如获取启动运行过程中的各种监听器。运行run方法，读取环境变量、配置信息等等，然后创建SpringApplication上下文，执行prepareContext方法将启动类作为配置类读取，将所有的配置类注册为BeanDefinition，之后执行refresh方法加载ioc容器，执行invokeBeanFactoryPostProcessor方法解析@Import注解，加载所有的自动配置类，之后执行onRefresh方法加载内置的Servlet容器创建一个内置的Tomcat，在这个过程中springboot会调用很多的监听器对外进行扩展。
 
 ## **spring如何使用三级缓存解决循环依赖的问题。**
 
-```markdown
 当A对象依赖B对象，B对象又依赖A对象这时候就产生了循环依赖的问题。
 使用三级缓存解决循环依赖问题的时候，本质的点在于将实例化和初始化分开处理。
 实例化：就是在堆中开辟一块空间，实例化要么通过反射要么new的方式。
@@ -1233,7 +1162,6 @@ springboot的starter机制依靠于自动装配来实现的，就是在Springboo
 1、不管有没有循环依赖，实例化后就直接创建好代理对象，并将代理对象放入缓存，出现循环依赖时，其他对象直接就可以取到代理对象并注入，此时只需要二级缓存；
 2、不提前创建好代理对象，在出现循环依赖被其他对象注入时，才提前生成代理对象（此时只完成了实例化）。这样在没有循环依赖的情况下，Bean还是在初始化完成才生成代理对象，此时用到了三级缓存；
 因此，三级缓存主要是为了正常情况下，代理对象能在初始化完成后生成，而不用提前生成，这样才符合Spring设计的原则，Spring在设计之初就是通过AnnotationAwareAspectJAutoProxyCreator这个后置处理器来在Bean生命周期的最后一步来完成AOP代理，而不是在实例化后就立马进行AOP代理，如果不按照这个原则会产生一定的风险（具体风险未知）。
-```
 
 ## Spring事务失效的几个场景
 
