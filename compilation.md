@@ -325,50 +325,6 @@ timed_waiting：计时等待状态，使用Thread.sleep()就会进入到这个�
 
 terminated：终止状态，线程中断或者结束就会进入到这个状态；
 
-## CountDownLatch，Semaphore 有什么作用？
-
-CountDownLatch和Semaphore都是jdk1.5提供的一个工具类可以实现线程的通信。
-
-CountDownLatch里面有个计数器，每个线程都可以通过调用CountDownLatch的countDown方法对计算器进行减一操作。一旦CountDownLatch的计数器由正数变为0后，调用了CountDownLatch的await方法的线程就会被唤醒。以此来实现线程间的通信。
-
-Semaphore 通常我们叫它信号量， 可以用来控制同时访问特定资源的线程数量，通过协调各个线程，以保证合理的使用资源。
-
-```java
-public class TestCar {
-​
-    //停车场同时容纳的车辆3
-    private static Semaphore semaphore = new Semaphore(3);
-​
-
-    public static void main(String[] args) {
-​
-        //模拟5辆车进入停车场
-        for (int i = 0; i < 5; i++) {
-​
-            Thread thread = new Thread(new Runnable() {
-                public void run() {
-                    try {
-                        System.out.println("====" + Thread.currentThread().getName() + "来到停车场");
-                        if (semaphore.availablePermits() == 0) {
-                            System.out.println("车位不足，请耐心等待");
-                        }
-                        semaphore.acquire();//获取令牌尝试进入停车场
-                        System.out.println(Thread.currentThread().getName() + "成功进入停车场");
-                        Thread.sleep(new Random().nextInt(10000));//模拟车辆在停车场停留的时间
-                        System.out.println(Thread.currentThread().getName() + "驶出停车场");
-                        semaphore.release();//释放令牌，腾出停车场车位
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, i + "号车");​
-            thread.start();
-
-        }
-    }
-}
-```
-
 ## 线程间通信
 
 1、volatile关键字：
