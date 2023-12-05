@@ -1034,6 +1034,14 @@ access-control-allow-origin 的字段值是包含当前客户端地址或 \*，�
 
 # JavaEE框架
 
+## Spring、SpringBoot、SpringCloud的区别
+
+Spring：Spring是一个轻量级的JavaEE开发框架，主要依存于SSM框架，即Spring+SpringMVC+Mybatis，Spring利用IOC/DI和AOP来处理业务，SpringMVC主要负责view层显示，Mybatis则是持久化数据到数据库。
+
+SpringBoot：SpringBoot的设计主要是根据“约定大于配置”的理念，简化Spring框架的开发。
+
+SpringCloud：SpringCloud是基于SpringBoot的一套实现微服务的框架，它不提供实际功能性的操作，只专注于服务之间的通讯、熔断和监控等。
+
 ## 过滤器和拦截器的区别
 
 1、使用范围与规范不同：Filter是Servlet规范中定义的，依赖于Servlet容器。拦截器是SpringMvc的组件，只有springMVC框架可以使用。
