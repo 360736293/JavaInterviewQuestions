@@ -1075,6 +1075,17 @@ SpringCloud：SpringCloud是基于SpringBoot的一套实现微服务的框架，
 1. mybatis中默认带了一级缓存，自动就使用了一级缓存。一级缓存是跟sqlSession相关的缓存。当我们使用同样的sqlSession去执行相同的查询sql那么一级缓存就会生效。一级缓存应用场景不多，几乎用不到。
 2. mybatis的二级缓存不是默认打开的，需要我们手动设置开启二级缓存。二级缓存是跟SqlSessionFactory相关的缓存。只要是同一个sqlSessionFactory创建的sqlSession对象执行的sql语句都共用这个二级缓存。
 
+## 原生jdbc、mybatis、mybatisPlus如何实现批量操作的
+
+​	普通的Java程序（原生JDBC）进行批量操作时：
+​		1、首先 **不考虑** 通过for循环来实现，这样频繁的创建关闭数据库连接，即便在使用了数据库连接池的情况下对性能的影响依然是非常显著的；
+​		2、可以通过循环将所有的操作参数 **拼接成一条SQL** 执行；
+​		3、或者通过在数据库连接url上添加 **?rewriteBatchedStatements=true** 开启mysql的批处理，之后使用 **addBatch**、**executeBatch**、**clearBatch** 方法将多条SQL语句一次性提交给数据库进行批量处理；
+
+​	mybatis里面可以使用 **动态标签** 来将多个操作参数拼接成一条SQL语句，那么就可以在一个sqlSession或者说在一个数据库连接里将所有的批量操作传递给数据库进行执行；
+
+​	mybatisPlus（mp）相对于mybatis来说就是对mybatis使用的简化，mp实现批量操作，实际上也是通过将多个操作参数拼接成一条SQL语句来实现的，只是避免了自己手动写动态标签；
+
 ## **谈谈对spring框架的理解。IOC/DI和AOP。**。
 
 **IOC、DI：**
