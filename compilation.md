@@ -1779,3 +1779,13 @@ mysql的数据和redis缓存中的数据，在多线程操作的时候有可能�
 ​	SPI其实有点类似设计模式中的 **模板设计模式**，都是由调用方定义接口，然后将接口暴露，使用时只需要关注实现接口的相关代码，而不需要关注该接口在哪里使用以及如何使用等。
 
 ​	**SPI中用户即能关注到接口的入参、返参，也能关注到接口的内部实现**。
+
+## 2、POM中的parent和dependency和dependencyManagement
+
+   **parent**：parent只能继承pom.xml中配置的依赖。例如通过parent引用项目A，可以使用A项目中dependency中依赖的StringUtils的方法，但是不能调用A项目中自己定义的类和方法；C项目中通过dependency依赖A，两者都可以调用。
+
+   **denpedency**：将需要依赖的jar包放到一个模块中，然后使用parent来标识依赖包，方便版本修改，只需要修改模块中版本，parent标记中可以不用版本号。例如有两个web模块A、B，一个java模块C，它们都需要用到同一个jar包：common.jar，如果分别在三个项目的pom文件中定义各自对common.jar的依赖，那么当common.jar的版本发生变化时，三个项目的pom文件都要改，项目越多要改的地方就越多，很麻烦，这时候就需要用到parent标签, 我们创建一个parent模块，打包类型为pom，parent模块中不存放任何代码，只是管理多个模块之间公共的依赖。在parent模块的pom文件中定义对common.jar的依赖，ABC三个子模块中只需要定义\<parent>，然后在parent标签中写上parent项目的pom坐标就可以引用到common.jar了。
+
+   **dependencyManagement**：相当于提前声明一个依赖，但可以被重写。有一个springmvc.jar，只有AB两个web模块需要，C模块是java项目不需要，那么又要怎么去依赖。如果AB中分别定义对springmvc.jar的依赖，当springmvc.jar版本变化时修改起来又会很麻烦，解决办法是在parent模块的pom文件中使用\<dependencyManagement>将springmvc.jar管理起来，然后在AB模块的pom文件中通过\<dependency>使用。
+   **在同一个pom文件下**，如果\<dependency>和\<dependencyManagement>中都对该jar做了依赖，以\<dependency>的为准，优先级高于\<dependencyManagement>。若前者没有对其依赖，而后者对其有依赖，则以后者为准。\<dependencyManagement>里只是声明依赖，并不实现引入。
+   **在不同的pom文件中**，存在父子相互依赖关系的，父模块的pom中\<dependencyManagement>中对该jar做了依赖，而子模块中\<dependency>又依赖了该jar，如果子模块中没有指定\<version>和\<scope>，则继承父模块中该jar的\<version>和\<scope>，如果子模块中指定了\<version>和\<scope>，以子模块的为准。
