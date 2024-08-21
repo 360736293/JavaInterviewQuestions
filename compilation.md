@@ -1077,14 +1077,16 @@ SpringCloud：SpringCloud是基于SpringBoot的一套实现微服务的框架，
 
 ## 5、原生jdbc、mybatis、mybatisPlus如何实现批量操作的
 
-​	普通的Java程序（原生JDBC）进行批量操作时：
+​   普通的Java程序（原生JDBC）进行批量操作时：
 ​		1、首先 **不考虑** 通过for循环来实现，这样频繁的创建关闭数据库连接，即便在使用了数据库连接池的情况下对性能的影响依然是非常显著的；
 ​		2、可以通过循环将所有的操作参数 **拼接成一条SQL** 执行；
 ​		3、或者通过在数据库连接url上添加 **?rewriteBatchedStatements=true** 开启mysql的批处理，之后使用 **addBatch**、**executeBatch**、**clearBatch** 方法将多条SQL语句一次性提交给数据库进行批量处理；
 
-​	mybatis里面可以使用 **动态标签** 来将多个操作参数拼接成一条SQL语句，那么就可以在一个sqlSession或者说在一个数据库连接里将所有的批量操作传递给数据库进行执行；
+​   mybatis里面可以使用 **动态标签** 来将多个操作参数拼接成一条SQL语句，那么就可以在一个sqlSession或者说在一个数据库连接里将所有的批量操作传递给数据库进行执行；
 
-​	mybatisPlus（mp）相对于mybatis来说就是对mybatis使用的简化，mp实现批量操作，实际上也是通过将多个操作参数拼接成一条SQL语句来实现的，只是避免了自己手动写动态标签；
+​   mybatisPlus（mp）实际上就是通过原生JDBC的第三种方式来实现批处理的，同样一定要确保数据库连接池携带有rewriteBatchedStatements=true参数，其本质上虽然也是通过for循环来调用addBatch方法来依次处理一个批次内的每一条数据，但是要注意的是addBatch方法实际上没有提交给数据库执行，当一个批次处理完时，才会调用executeBatch方法来真正的将一个批次的数据传递给数据库来执行；
+
+​   在效率上，如果数据库连接处没有添加rewriteBatchedStatements=true的参数，mybatisPlus的批量操作性能会低于mybatis的动态标签，否则会高于它。
 
 ## 6、谈谈对spring框架的理解。IOC/DI和AOP
 
